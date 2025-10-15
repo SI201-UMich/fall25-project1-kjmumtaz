@@ -16,7 +16,7 @@ def get_island(island, species, parameter):
         values_list.append(values)
 
 
-def operator(command, values_list):
+def operator(command):
 
     if command == "median":
         values_list.sort()
@@ -30,9 +30,6 @@ def operator(command, values_list):
     elif command == "mean":
         mean = sum(values_list) / len(values_list)
         return mean
-    
-    else:
-        return "Invalid"
 
 
 class ImportPenguins():
@@ -91,7 +88,15 @@ class CommandLine():
         instruct_species = instruct[2]
         instruct_parameter = instruct[3]
 
+        if instruct_command not in ["mean", "median"]:
+            print("Invalid command")
+            continue
+
         get_island(instruct_island, instruct_species, instruct_parameter)
+
+        print(f"The {instruct_command} of {instruct_parameter} for {instruct_species} on {instruct_island} is {operator(instruct_command)}")
+
+
 
     print("Exiting program.")
 
