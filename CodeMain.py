@@ -46,6 +46,27 @@ class ImportPenguins():
                 PenguinData[island][species]["body_mass_g"].append(float(body_mass_g)) 
 
 
+class CommandLine():
+
+    iteration = 0
+
+    while iteration >= 0:
+
+        instruct = input("Enter command: ")
+        instruct = instruct.split()
+        if instruct[0] == "exit":
+            break
+        if len(instruct) != 4:
+            print("Invalid command")
+            continue
+        instruct_command = instruct[0]
+        instruct_island = instruct[1]
+        instruct_species = instruct[2]
+        instruct_parameter = instruct[3]
+
+    print("Exiting program.")
+
+
 
 
 
