@@ -8,6 +8,33 @@ import unittest
 import os
 import csv
 
+def get_island(island, species, parameter):
+
+    values_list = []
+
+    for values in ImportPenguins.PenguinData[island][species][parameter]:
+        values_list.append(values)
+
+
+def operator(command, values_list):
+
+    if command == "median":
+        values_list.sort()
+        n = len(values_list)
+        if n % 2 == 0:
+            median = (values_list[n//2 - 1] + values_list[n//2]) / 2
+        else:
+            median = values_list[n//2]
+        return median
+    
+    elif command == "mean":
+        mean = sum(values_list) / len(values_list)
+        return mean
+    
+    else:
+        return "Invalid"
+
+
 class ImportPenguins():
 
     base_path = os.path.abspath(os.path.dirname(__file__))
@@ -64,9 +91,9 @@ class CommandLine():
         instruct_species = instruct[2]
         instruct_parameter = instruct[3]
 
+        get_island(instruct_island, instruct_species, instruct_parameter)
+
     print("Exiting program.")
-
-
 
 
 
