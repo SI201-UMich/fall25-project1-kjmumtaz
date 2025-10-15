@@ -10,13 +10,18 @@ import csv
 
 def get_island(island, species, parameter):
 
-    values_list = []
+    out_list = []
 
-    for values in ImportPenguins.PenguinData[island][species][parameter]:
-        values_list.append(values)
+    try:
+        for values in ImportPenguins.PenguinData[island][species][parameter]:
+            out_list.append(values)
+    except:
+        return "Invalid"
+
+    return out_list
 
 
-def operator(command):
+def operator(command, values_list):
 
     if command == "median":
         values_list.sort()
@@ -70,11 +75,26 @@ class ImportPenguins():
                 PenguinData[island][species]["body_mass_g"].append(float(body_mass_g)) 
 
 
+class LogWriter():
+    def __init__(self, filename="log.txt"):
+        self.filename = filename
+        self.base_path = os.path.abspath(os.path.dirname(__file__))
+        self.full_path = os.path.join(self.base_path, self.filename)
+        with open(self.full_path, 'w') as file:
+            file.write("Log File Created\n")
+
+    def add_log(self, entry):
+        with open(self.full_path, 'a') as file:
+            file.write(entry + "\n")
+
+
 class CommandLine():
 
     iteration = 0
 
     while iteration >= 0:
+
+        iteration += 1
 
         instruct = input("Enter command: ")
         instruct = instruct.split()
@@ -92,13 +112,20 @@ class CommandLine():
             print("Invalid command")
             continue
 
-        get_island(instruct_island, instruct_species, instruct_parameter)
+        input_list = get_island(instruct_island, instruct_species, instruct_parameter)
 
-        print(f"The {instruct_command} of {instruct_parameter} for {instruct_species} on {instruct_island} is {operator(instruct_command)}")
+        if input_list == "Invalid":
+            print("Invalid island, species, or parameter")
+            continue
+
+        printout = f"The {instruct_command} of {instruct_parameter} for {instruct_species} penguins on {instruct_island} island is {operator(instruct_command, input_list)}"
+        print(printout)
+
+        log = LogWriter()
+        log_entry = f"Line {iteration}: {printout}"
 
 
-
-    print("Exiting program.")
+    print("Exiting program. Data saved to log.txt")
 
 
 
