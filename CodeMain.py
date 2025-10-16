@@ -99,9 +99,6 @@ class CommandLine():
         self.iteration = 0
 
     def run(self):
-        """Run the interactive command-line loop. This will only execute
-        when called explicitly (not on import).
-        """
         log = None
         while True:
             self.iteration += 1
